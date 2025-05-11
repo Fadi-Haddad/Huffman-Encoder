@@ -15,8 +15,22 @@ defmodule Counter do
   """
   def count_from_file(path_to_file) do
     case File.read(path_to_file) do
-      {:ok, contents} -> contents |> String.graphemes() |> Enum.frequencies()
-      {:error, reason } -> IO.puts("Failed to count characters: #{inspect(reason)}")
+      {:ok, content} ->
+        count_start_time = System.monotonic_time(:millisecond)
+
+        frequencies =
+          content
+          |> String.graphemes()
+          |> Enum.frequencies()
+
+        count_end_time = System.monotonic_time(:millisecond)
+        elapsed_time = count_end_time - count_start_time
+
+        IO.puts("Done in #{elapsed_time} milliseconds")
+        frequencies
+
+      {:error, reason} ->
+        IO.puts("Failed to count characters: #{inspect(reason)}")
     end
   end
 end
