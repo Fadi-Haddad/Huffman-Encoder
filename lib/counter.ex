@@ -1,12 +1,11 @@
-defmodule Counter do
+defmodule Hoffman.Counter do
   @moduledoc """
   Counter Module is responsible for counting the characters inside the file.
   a path to the file should be provided.
   """
 
   @doc """
-  Hello world.
-
+  reads a file from a specified path and returns a frequency list of included characters
   ## Examples
 
       iex> Counter.count_from_file("c:/path_to_file.txt")
