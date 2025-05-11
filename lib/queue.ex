@@ -13,7 +13,10 @@ defmodule Huffman.Queue do
 
   """
   def build_queue(map) do
-    map |> Enum.map(fn {k, v} -> {v, k} end)
-  end
+    map |> Enum.map(fn {k, v} -> {v, k} end) |> sort()
 
+  end
+  defp sort(queue) do
+    Enum.sort_by(queue, fn {freq, _} -> freq end)
+  end
 end
