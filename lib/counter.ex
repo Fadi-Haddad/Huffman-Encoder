@@ -1,4 +1,4 @@
-defmodule Hoffman.Counter do
+defmodule Huffman.Counter do
   @moduledoc """
   Counter Module is responsible for counting the characters inside the file.
   a path to the file should be provided.

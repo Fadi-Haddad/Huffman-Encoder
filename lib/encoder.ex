@@ -1,5 +1,6 @@
-defmodule Hoffman.Encoder do
-  alias Hoffman.Counter
+defmodule Huffman.Encoder do
+  alias Huffman.{Counter, Queue}
+  # import
   @moduledoc """
   Counter Module is responsible for counting the characters inside the file.
   a path to the file should be provided.
@@ -14,8 +15,10 @@ defmodule Hoffman.Encoder do
 
   """
   def encode(path_to_file) do
-    Counter.count_from_file(path_to_file)
-    # Queue.build_queue()
+    tree = Counter.count_from_file(path_to_file)
+            |> Queue.build_queue()
+            # |> Tree.build_leaves()
+            # |> Tree.build_tree()
 
   end
 end

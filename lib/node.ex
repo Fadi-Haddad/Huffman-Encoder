@@ -1,3 +1,3 @@
 defmodule Huffman.Node do
-  defstruct [:left, :right, :freq]
+  defstruct [:freq, :left, :right]
 end
