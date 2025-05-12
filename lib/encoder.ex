@@ -19,7 +19,10 @@ defmodule Huffman.Encoder do
             |> Queue.build_queue()
             |> Tree.build_leaves()
             |> Tree.build_tree()
-    tree
+
+    tree_code = generate_codes(tree)
+    strings = File.read!(path_to_file)
+    generate_bitstring(tree_code, strings)
   end
 
   def generate_codes(tree) do
@@ -29,11 +32,18 @@ defmodule Huffman.Encoder do
   defp generate_codes(%Huffman.Leaf{char: char}, prefix) do
     %{char => prefix}
   end
-  
+
   defp generate_codes(%Huffman.Node{left: left, right: right}, prefix) do
     left_codes = generate_codes(left, prefix <> "0")
     right_codes = generate_codes(right, prefix <> "1")
 
     Map.merge(left_codes, right_codes)
-end
+  end
+
+  defp generate_bitstring(tree_code, string) do
+    encoded_string = string
+    |> String.graphemes()
+    |> Enum.map(fn char -> Map.get(tree_code, char) end)
+    |> Enum.join("")
+  end
 end
