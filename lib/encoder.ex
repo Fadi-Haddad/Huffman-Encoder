@@ -23,7 +23,8 @@ defmodule Huffman.Encoder do
 
     prefix_code = generate_codes(tree)
     strings = File.read!(path_to_file)
-    generate_bitstring(prefix_code, strings)
+    bitstring = generate_bitstring(prefix_code, strings)
+    {bitstring, tree}
   end
 
   def generate_codes(tree) do
@@ -42,12 +43,12 @@ defmodule Huffman.Encoder do
   end
 
   defp generate_bitstring(prefix_code, strings) do
-    encoded_string =
+    bitstring =
       strings
       |> String.graphemes()
       |> Enum.map(fn char -> Map.get(prefix_code, char) end)
       |> Enum.join("")
 
-    encoded_string
+    bitstring
   end
 end

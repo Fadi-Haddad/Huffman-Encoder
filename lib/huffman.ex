@@ -12,7 +12,14 @@ defmodule Huffman do
       :world
 
   """
-  def hello do
-    :world
+  alias Huffman.{Binary, Encoder}
+
+  def encode(path_to_file) do
+    Encoder.encode(path_to_file)
   end
+
+  def serialize_bitstring(bitstring) do
+    Binary.serialize_bitstring(bitstring)
+  end
+
 end

@@ -27,17 +27,17 @@ defmodule Huffman.Binary do
     - `binary`: the binary representation of the input bits
     - `padding`: the padding string of `"0"`s added to make the length divisible by 8
   """
-  def serialize_bitstring(bits) do
-    {padded_binary, padding} = pad_bits_to_bytes(bits)
+  def serialize_bitstring(bitstring) do
+    {padded_binary, padding} = pad_bits_to_bytes(bitstring)
     bytes = padded_binary |> split_into_bytes() |> serialize_chunks_to_bytes()
     binary = IO.iodata_to_binary(bytes)
     {binary, padding}
   end
 
-  defp pad_bits_to_bytes(bits) do
-    padding_length = rem(8 - rem(String.length(bits), 8), 8)
+  defp pad_bits_to_bytes(bitstring) do
+    padding_length = rem(8 - rem(String.length(bitstring), 8), 8)
     padding = String.duplicate("0", padding_length)
-    {bits <> padding, padding}
+    {bitstring <> padding, padding}
   end
 
   defp split_into_bytes(padded_binary) do
@@ -49,7 +49,7 @@ defmodule Huffman.Binary do
     bytes
   end
 
-  defp serialize_chunks_to_bytes(bytes) do
-    bytes |> Enum.map(fn chunck -> <<String.to_integer(chunck, 2)::8>> end)
+  defp serialize_chunks_to_bytes(chunks_list) do
+    chunks_list |> Enum.map(fn chunck -> <<String.to_integer(chunck, 2)::8>> end)
   end
 end
