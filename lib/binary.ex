@@ -13,11 +13,18 @@ defmodule Huffman.Binary do
       :world
 
   """
-  def encode_binary(bits) do
+  def serialize_bitstring(bits) do
     {padded_binary, padding} = pad_bits_to_bytes(bits)
     IO.puts("padded=" <> padded_binary)
     bytes = padded_binary |> split_into_bytes() |> bits_to_bytes()
     binary = IO.iodata_to_binary(bytes)
     {binary, padding}
   end
+
+  defp pad_bits_to_bytes(bits) do
+    padding_length = rem(8 - rem(String.length(bits), 8), 8)
+    padding = String.duplicate("0", padding_length)
+    {bits <> padding, padding}
+  end
+
 end
