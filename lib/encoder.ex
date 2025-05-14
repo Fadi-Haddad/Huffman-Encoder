@@ -2,7 +2,7 @@ defmodule Huffman.Encoder do
   alias Huffman.{Counter, Queue, Tree}
   # import
   @moduledoc """
-  Counter Module is responsible for counting the characters inside the file.
+  Encoder Module is responsible for encoding the file with Huffman encoding.
   a path to the file should be provided.
   """
 
@@ -10,8 +10,8 @@ defmodule Huffman.Encoder do
 
   ## Examples
 
-      iex> Counter.count_from_file("c:/path_to_file.txt")
-      %{"." => 11, "1" => 35, "I" => 4, "V" => 4, "O" => 1}
+      iex> Counter.encode("c:/path_to_file.txt")
+      "0000000100000000010101000100100000000000000010"
 
   """
   def encode(path_to_file) do
@@ -20,9 +20,9 @@ defmodule Huffman.Encoder do
             |> Tree.build_leaves()
             |> Tree.build_tree()
 
-    tree_code = generate_codes(tree)
+    prefix_code = generate_codes(tree)
     strings = File.read!(path_to_file)
-    generate_bitstring(tree_code, strings)
+    generate_bitstring(prefix_code, strings)
   end
 
   def generate_codes(tree) do
@@ -40,10 +40,12 @@ defmodule Huffman.Encoder do
     Map.merge(left_codes, right_codes)
   end
 
-  defp generate_bitstring(tree_code, string) do
-    encoded_string = string
+  defp generate_bitstring(prefix_code, strings) do
+    encoded_string = strings
     |> String.graphemes()
-    |> Enum.map(fn char -> Map.get(tree_code, char) end)
+    |> Enum.map(fn char -> Map.get(prefix_code, char) end)
     |> Enum.join("")
+
+    encoded_string
   end
 end

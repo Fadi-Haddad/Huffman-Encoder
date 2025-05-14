@@ -1,0 +1,23 @@
+defmodule Huffman.Binary do
+  @moduledoc """
+  Documentation for `Huffman`.
+  """
+
+  @doc """
+  Huffman.Binary is responsible for converting the bitstring we get from Huffman encoder to actual bits and then bytes.
+  instead of 1s and 0s as characters.
+
+  ## Examples
+
+      iex> Huffman.hello()
+      :world
+
+  """
+  def encode_binary(bits) do
+    {padded_binary, padding} = pad_bits_to_bytes(bits)
+    IO.puts("padded=" <> padded_binary)
+    bytes = padded_binary |> split_into_bytes() |> bits_to_bytes()
+    binary = IO.iodata_to_binary(bytes)
+    {binary, padding}
+  end
+end
