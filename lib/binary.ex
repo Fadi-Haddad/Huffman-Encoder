@@ -26,5 +26,11 @@ defmodule Huffman.Binary do
     padding = String.duplicate("0", padding_length)
     {bits <> padding, padding}
   end
-
+  
+  defp split_into_bytes(padded_binary) do
+    bytes = String.graphemes(padded_binary)
+            |> Enum.chunk_every(8)
+            |> Enum.map(fn chunck -> Enum.join(chunck, "") end)
+    bytes
+  end
 end
