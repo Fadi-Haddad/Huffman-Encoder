@@ -15,8 +15,7 @@ defmodule Huffman.Binary do
   """
   def serialize_bitstring(bits) do
     {padded_binary, padding} = pad_bits_to_bytes(bits)
-    IO.puts("padded=" <> padded_binary)
-    bytes = padded_binary |> split_into_bytes() |> bits_to_bytes()
+    bytes = padded_binary |> split_into_bytes() |> serialize_chunks_to_bytes()
     binary = IO.iodata_to_binary(bytes)
     {binary, padding}
   end
@@ -26,11 +25,15 @@ defmodule Huffman.Binary do
     padding = String.duplicate("0", padding_length)
     {bits <> padding, padding}
   end
-  
+
   defp split_into_bytes(padded_binary) do
     bytes = String.graphemes(padded_binary)
             |> Enum.chunk_every(8)
             |> Enum.map(fn chunck -> Enum.join(chunck, "") end)
     bytes
+  end
+
+  defp serialize_chunks_to_bytes(bytes) do
+    bytes |> Enum.map(fn chunck -> <<String.to_integer(chunck, 2)::8>> end)
   end
 end
