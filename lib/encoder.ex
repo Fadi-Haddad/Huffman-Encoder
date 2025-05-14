@@ -15,10 +15,11 @@ defmodule Huffman.Encoder do
 
   """
   def encode(path_to_file) do
-    tree = Counter.count_from_file(path_to_file)
-            |> Queue.build_queue()
-            |> Tree.build_leaves()
-            |> Tree.build_tree()
+    tree =
+      Counter.count_from_file(path_to_file)
+      |> Queue.build_queue()
+      |> Tree.build_leaves()
+      |> Tree.build_tree()
 
     prefix_code = generate_codes(tree)
     strings = File.read!(path_to_file)
@@ -41,10 +42,11 @@ defmodule Huffman.Encoder do
   end
 
   defp generate_bitstring(prefix_code, strings) do
-    encoded_string = strings
-    |> String.graphemes()
-    |> Enum.map(fn char -> Map.get(prefix_code, char) end)
-    |> Enum.join("")
+    encoded_string =
+      strings
+      |> String.graphemes()
+      |> Enum.map(fn char -> Map.get(prefix_code, char) end)
+      |> Enum.join("")
 
     encoded_string
   end
